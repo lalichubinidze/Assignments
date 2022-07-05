@@ -1,6 +1,7 @@
 import UIKit
 
 class ViewController: UIViewController {
+
     @IBOutlet weak var firstNumber: UILabel!
     @IBOutlet weak var secondNumber: UILabel!
     @IBOutlet weak var thirdNumber: UILabel!
