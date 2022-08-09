@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         if number % i == 0 {
           return false
         }
-        i = i + 2
+        i = i + 1
       }
       return true
     }
