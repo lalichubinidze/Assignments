@@ -4,6 +4,7 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var posterImg: UIImageView!
     @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var imdb: UILabel!
     @IBOutlet weak var releasedateLbl: UILabel!
     @IBOutlet weak var countryLbl: UILabel!
     @IBOutlet weak var overviewLbl: UILabel!
@@ -13,20 +14,14 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setup()
+        config()
 
     }
-    func setup() {
-        let imageBaseUrl = "https://image.tmdb.org/t/p/w500/"
-        let url = imageBaseUrl + (movie?.poster_path ?? "")
-        posterImg.loadImage(by: url)
+    func config() {
+        let url = Urls.imageBaseUrl.rawValue + (movie?.poster_path ?? "")
+        self.posterImg.load(by: url)
         titleLbl.text = movie?.name
         releasedateLbl.text = "(\(String(describing: movie?.first_air_date ?? "")))"
-        countryLbl.text = movie?.origin_country[0]
         overviewLbl.text = movie?.overview
-
     }
-
-
-
 }

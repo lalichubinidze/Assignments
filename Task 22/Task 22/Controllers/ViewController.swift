@@ -14,14 +14,14 @@ class ViewController: UIViewController {
         fetchData()
     }
     private func fetchData(){
-        APICaller.shared.getMovieData { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let model):
-                    self?.movie = model
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+        let url = "\(Urls.baseUrl.rawValue)\(Urls.apiKay.rawValue)\(Urls.endUrl.rawValue)"
+        APICaller.shared.getMovieData(with: url) { (movie: Movie?, error )  in
+            guard let movie = movie, error == nil  else {
+                print(error?.localizedDescription)
+                return
+            }
+            DispatchQueue.main.async { [weak self] in
+                self?.movie = movie
                 self?.listTableView.reloadData()
             }
         }
@@ -36,11 +36,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! CustomCell
         let currentMovie = movie.results[indexPath.row]
-        cell.nameLbl.text = currentMovie.name
-        cell.IMDB.text = ("IMDB: \(currentMovie.vote_average)")
-        let imageBaseUrl = "https://image.tmdb.org/t/p/w500/"
-        let url = imageBaseUrl + (currentMovie.poster_path ?? "")
-        cell.poster.loadImage(by: url)
+        cell.dataconfig(with: currentMovie)
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -48,9 +44,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let selectedTvShow = movie.results[indexPath.row]
+        let selectMovie = movie.results[indexPath.row]
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else { return }
-        
+        vc.movie = selectMovie
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
