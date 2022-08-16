@@ -21,7 +21,7 @@ class DetailViewController: UIViewController {
         let url = Urls.imageBaseUrl.rawValue + (movie?.poster_path ?? "")
         self.posterImg.load(by: url)
         titleLbl.text = movie?.name
-        releasedateLbl.text = "(\(String(describing: movie?.first_air_date ?? "")))"
+        releasedateLbl.text = "(Release date: \(String(describing: movie?.first_air_date ?? "")))"
         overviewLbl.text = movie?.overview
     }
 }

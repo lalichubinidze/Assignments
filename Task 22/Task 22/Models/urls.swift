@@ -1,10 +1,3 @@
-//
-//  urls.swift
-//  Task 22
-//
-//  Created by iveri gamezardashvili on 8/15/22.
-//
-
 import Foundation
 import UIKit
 
